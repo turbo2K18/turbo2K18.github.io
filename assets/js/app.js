@@ -22821,7 +22821,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var burger = (0, _jquery2.default)('.burger');
 
+function cleanHeader() {
+	(0, _jquery2.default)('.primary-expand').removeClass('active');
+	(0, _jquery2.default)('.center-container').removeClass('transX-0');
+	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
+	burger.removeClass('active');
+	if ((0, _jquery2.default)('.dropdown-content').hasClass('transX-0')) {
+		(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
+	}
+}
+
 (0, _jquery2.default)('.burger-container').on('click', function () {
+	(0, _jquery2.default)('.primary-expand').removeClass('active');
+	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
 	(0, _jquery2.default)(this).find('.burger').toggleClass('active');
 	(0, _jquery2.default)('.center-container').toggleClass('transX-0');
 	(0, _jquery2.default)('.overlay-w').toggleClass('transX-0');
@@ -22831,17 +22843,28 @@ var burger = (0, _jquery2.default)('.burger');
 });
 
 (0, _jquery2.default)('.overlay-w').on('click', function () {
-	burger.removeClass('active');
-	(0, _jquery2.default)('.center-container').removeClass('transX-0');
-	(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
+	cleanHeader();
 	(0, _jquery2.default)(this).removeClass('transX-0');
 });
 
 (0, _jquery2.default)('.main-link').on('click', function (e) {
-	if ((0, _jquery2.default)(this).parent().find('.dropdown-content')) {
+	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
+	(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
+	(0, _jquery2.default)('.primary-expand').removeClass('active');
+	if ((0, _jquery2.default)(this).parent().find('.dropdown-content').length) {
 		e.preventDefault();
+		(0, _jquery2.default)('.center-container').addClass('expand-drop');
 		(0, _jquery2.default)(this).parent().find('.dropdown-content').toggleClass('transX-0');
+		setTimeout(function () {
+			(0, _jquery2.default)('.primary-expand').addClass('active');
+		}, 100);
 	}
+});
+
+(0, _jquery2.default)('.primary-expand').on('click', function () {
+	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
+	(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
+	(0, _jquery2.default)('.primary-expand').removeClass('active');
 });
 
 (0, _jquery2.default)('.prev-nav').on('click', function () {
@@ -22855,7 +22878,7 @@ if (window.matchMedia("(min-width: 880px)").matches) {
 				(0, _jquery2.default)('.primary-nav').removeClass("on-top");
 			} else {
 				(0, _jquery2.default)('.primary-nav').addClass("on-top");
-				// $('.nav--primary-active-overlay').removeClass("active");
+				cleanHeader();
 			}
 		});
 	});
