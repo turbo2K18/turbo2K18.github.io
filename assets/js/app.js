@@ -22819,12 +22819,19 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var burger = (0, _jquery2.default)('.burger');
+(0, _jquery2.default)('.primary-nav').on('mousewheel DOMMouseScroll', function (e) {
+	var e0 = e.originalEvent;
+	var delta = e0.wheelDelta || -e0.detail;
+	this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+	e.preventDefault();
+});
 
+var burger = (0, _jquery2.default)('.burger');
 function cleanHeader() {
 	(0, _jquery2.default)('.primary-expand').removeClass('active');
 	(0, _jquery2.default)('.center-container').removeClass('transX-0');
 	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
+	(0, _jquery2.default)('.overlay-w').removeClass('transX-0');
 	burger.removeClass('active');
 	if ((0, _jquery2.default)('.dropdown-content').hasClass('transX-0')) {
 		(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
@@ -22844,20 +22851,21 @@ function cleanHeader() {
 
 (0, _jquery2.default)('.overlay-w').on('click', function () {
 	cleanHeader();
-	(0, _jquery2.default)(this).removeClass('transX-0');
 });
 
 (0, _jquery2.default)('.main-link').on('click', function (e) {
-	(0, _jquery2.default)('.center-container').removeClass('expand-drop');
-	(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
-	(0, _jquery2.default)('.primary-expand').removeClass('active');
-	if ((0, _jquery2.default)(this).parent().find('.dropdown-content').length) {
-		e.preventDefault();
-		(0, _jquery2.default)('.center-container').addClass('expand-drop');
-		(0, _jquery2.default)(this).parent().find('.dropdown-content').toggleClass('transX-0');
-		setTimeout(function () {
-			(0, _jquery2.default)('.primary-expand').addClass('active');
-		}, 100);
+	if (!(0, _jquery2.default)('primary-nav').hasClass('on-top')) {
+		(0, _jquery2.default)('.center-container').removeClass('expand-drop');
+		(0, _jquery2.default)('.dropdown-content').removeClass('transX-0');
+		(0, _jquery2.default)('.primary-expand').removeClass('active');
+		if ((0, _jquery2.default)(this).parent().find('.dropdown-content').length) {
+			e.preventDefault();
+			(0, _jquery2.default)('.center-container').addClass('expand-drop');
+			(0, _jquery2.default)(this).parent().find('.dropdown-content').toggleClass('transX-0');
+			setTimeout(function () {
+				(0, _jquery2.default)('.primary-expand').addClass('active');
+			}, 100);
+		}
 	}
 });
 
